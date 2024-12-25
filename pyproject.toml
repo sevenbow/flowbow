@@ -1,0 +1,30 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "flowbow"
+version = "0.0.1"
+description = "Kickstart ML projects with configurable and powerful boilerplate code generator CLI"
+authors = [
+    { name = "Himanshu Mittal", email = "himanshu.mittal.dev@gmail.com" }
+]
+license = { file = "LICENSE" }
+readme = "README.md"
+classifiers = [
+    "Programming Language :: Python :: 3"
+]
+requires-python = ">=3.10"
+dependencies = [
+    "jinja2>=3.1.5",
+    "typer>=0.15.1",
+]
+
+[project.scripts]
+flowbow = "flowbow.cli:main"
+
+[tool.ruff]
+line-length = 80
+
+[tool.uv.workspace]
+members = ["flowbow"]
