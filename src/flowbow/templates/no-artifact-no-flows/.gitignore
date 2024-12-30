@@ -1,3 +1,7 @@
+# Data
+data/
+input/
+
 # Environments
 .vscode/
 .env
@@ -12,6 +16,3 @@ venv.bak/
 __pycache__/
 *.py[cod]
 *$py.class
-
-# Useless files
-**/.DS_Store
