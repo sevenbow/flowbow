@@ -1,19 +1,26 @@
-# code_generator/generator.py
+"""Generator module"""
+
+from pathlib import Path
+
 from jinja2 import Template
-import os
 
-def generate_class_code(class_name, init_params, init_body):
+
+def generate_class_code(template_name: str, output_dir: str):
     """Generate Python class code from template."""
-    template_path = os.path.join(os.path.dirname(__file__), 'templates', 'python_class_template.py')
-    
-    with open(template_path, "r") as template_file:
-        template = Template(template_file.read())
-    
-    # Generate the final code by substituting placeholders
-    return template.render(class_name=class_name, init_params=init_params, init_body=init_body)
+    template_dir = Path(__file__).parent / "templates" / template_name
 
-def write_code_to_file(file_name, code):
-    """Write generated code to a file."""
-    with open(file_name, "w") as code_file:
-        code_file.write(code)
-    print(f"Code generated in {file_name}")
+    for filepath in template_dir.rglob("*"):
+        if filepath.is_file():
+            # Read template
+            with open(filepath, "r") as template_file:
+                template = Template(template_file.read())
+
+            # Generate the final code by substituting placeholders
+            rendered_template = template.render()
+
+            # Write rendered template to a file
+            output_path = Path(output_dir) / filepath.relative_to(template_dir)
+            output_path.parent.mkdir(exist_ok=True, parents=True)
+            with open(output_path, "w") as code_file:
+                code_file.write(rendered_template)
+            print(f"Code generated in {output_path}")

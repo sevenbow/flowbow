@@ -24,7 +24,7 @@ dependencies = [
 ]
 
 [project.scripts]
-flowbow = "flowbow.cli:main"
+flowbow = "flowbow.cli:cli"
 
 [tool.ruff]
 line-length = 80

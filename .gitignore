@@ -1,3 +1,5 @@
+tmp/
+
 # Environments
 .vscode/
 .env
