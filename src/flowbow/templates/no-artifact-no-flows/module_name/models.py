@@ -19,9 +19,20 @@ def build_model(model_config):
     pass
 
 
-def save_model(model, path):
+def save_model(model, filepath):
+    """Model serialization.
+
+    Args:
+        model: Model object
+        filepath: Path to save the model
+    """
     pass
 
 
-def load_model(path):
+def load_model(filepath):
+    """Model deserialization.
+
+    Args:
+        filepath: Path to load the model
+    """
     pass
