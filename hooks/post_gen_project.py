@@ -3,9 +3,9 @@ from copy import copy
 from pathlib import Path
 
 # https://github.com/cookiecutter/cookiecutter/issues/824
-#   our workaround is to include these utility functions in the CCDS package
-from ccds.hook_utils.custom_config import write_custom_config
-from ccds.hook_utils.dependencies import basic, packages, scaffold, write_dependencies
+#   our workaround is to include these utility functions in the FLOWBOW_ROOT package
+from flowbow.hook_utils.custom_config import write_custom_config
+from flowbow.hook_utils.dependencies import basic, packages, scaffold, write_dependencies
 
 #
 #  TEMPLATIZED VARIABLES FILLED IN BY COOKIECUTTER

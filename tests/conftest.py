@@ -8,9 +8,9 @@ from pathlib import Path
 
 import pytest
 
-from ccds.__main__ import api_main
+from flowbow.__main__ import api_main
 
-CCDS_ROOT = Path(__file__).parents[1].resolve()
+FLOWBOW_ROOT = Path(__file__).parents[1].resolve()
 
 
 default_args = {
@@ -23,7 +23,7 @@ default_args = {
 
 
 def config_generator(fast=False):
-    cookiecutter_json = json.load((CCDS_ROOT / "ccds.json").open("r"))
+    cookiecutter_json = json.load((FLOWBOW_ROOT / "flowbow.json").open("r"))
 
     # python versions for the created environment; match the root
     # python version since Pipenv needs to be able to find an executable
@@ -117,7 +117,7 @@ def bake_project(config):
     temp = Path(tempfile.mkdtemp(suffix="data-project")).resolve()
 
     api_main.cookiecutter(
-        str(CCDS_ROOT),
+        str(FLOWBOW_ROOT),
         no_input=True,
         extra_context=config,
         output_dir=temp,
