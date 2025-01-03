@@ -26,7 +26,7 @@
         "none",
         "basic"
     ],
-    "open_source_license": ["No license file", "MIT", "BSD-3-Clause", "ISC license", "Apache Software License 2.0", "GNU General Public License v3"],
+    "open_source_license": ["No license file", "MIT License", "Modified BSD License", "ISC license", "Apache Software License 2.0", "GNU General Public License v3"],
     "docs": ["mkdocs", "none"],
     "include_code_scaffold": ["Yes", "No"]
 }

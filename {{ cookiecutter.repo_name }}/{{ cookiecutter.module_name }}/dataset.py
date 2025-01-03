@@ -1,4 +1,4 @@
-"""Load and clean data, manage data streams and handle holdout splits.{% if cookiecutter.open_source_license == 'MIT' %}
+"""Load and clean data, manage data streams and handle holdout splits.{% if cookiecutter.open_source_license != 'No license file' %}
 
 {{ cookiecutter.open_source_license }}
 Copyright (c) {% now 'utc', '%Y' %}, {{ cookiecutter.author_name }}{% endif %}"""

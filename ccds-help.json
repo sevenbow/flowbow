@@ -217,18 +217,39 @@
                 } 
             },
             {
-                "choice": "MIT",
+                "choice": "MIT License",
                 "help": {
                     "description": "MIT License",
                     "more_information": "[License](https://opensource.org/license/mit)"
                 } 
             },
             {
-                "choice": "BSD-3-Clause",
+                "choice": "Modified BSD License",
                 "help": {
                     "description": "3-Clause BSD License",
                     "more_information": "[License](https://opensource.org/license/bsd-3-clause)"
                 } 
+            },
+            {
+                "choice": "ISC license",
+                "help": {
+                    "description": "ISC License",
+                    "more_information": "[License](https://opensource.org/license/ISC)"
+                }
+            },
+            {
+                "choice": "Apache Software License 2.0",
+                "help": {
+                    "description": "Apache Software License 2.0",
+                    "more_information": "[License](https://opensource.org/license/Apache-2.0)"
+                }
+            },
+            {
+                "choice": "GNU General Public License v3",
+                "help": {
+                    "description": "GNU General Public License v3",
+                    "more_information": "[License](https://opensource.org/license/GPL-3.0)"
+                }
             }
         ]
     },

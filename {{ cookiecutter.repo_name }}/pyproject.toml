@@ -13,19 +13,12 @@ authors = [
 readme = "README.md"
 classifiers = [
     "Programming Language :: Python :: 3",
-    {% if cookiecutter.open_source_license == 'MIT' %}"License :: OSI Approved :: MIT License"{% elif cookiecutter.open_source_license == 'BSD-3-Clause' %}"License :: OSI Approved :: BSD License"{% endif %}
+    {% if cookiecutter.open_source_license == 'MIT License' %}"License :: OSI Approved :: MIT License"{% elif cookiecutter.open_source_license == 'Modified BSD License' %}"License :: OSI Approved :: BSD License"{% elif cookiecutter.open_source_license == 'ISC license' -%}License :: OSI Approved :: ISC License (ISCL){% elif cookiecutter.open_source_license == 'Apache Software License 2.0' -%}License :: OSI Approved :: Apache Software License{% elif cookiecutter.open_source_license == 'GNU General Public License v3' -%}License :: OSI Approved :: GNU General Public License v3 (GPLv3){% endif %}
 ]
 requires-python = "~={{ cookiecutter.python_version_number }}"
 
-[tool.black]
-line-length = 99
-include = '\.pyi?$'
-exclude = '''
-/(
-    \.git
-  | \.venv
-)/
-'''
+[tool.ruff]
+line-length = 80
 
 [tool.ruff.lint.isort]
 known_first_party = ["{{ cookiecutter.module_name }}"]
