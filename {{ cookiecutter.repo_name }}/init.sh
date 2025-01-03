@@ -59,7 +59,7 @@ fi
 
 # Set up pre-commit
 echo "Setting up pre-commit hooks..."
-pre-commit install
+.venv/bin/pre-commit install
 if [ $? -ne 0 ]; then
     echo "Error: Failed to set up pre-commit hooks."
     deactivate
