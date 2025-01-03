@@ -14,6 +14,7 @@ python main.py --help
 
 import typer
 import hydra
+import subprocess
 from omegaconf import OmegaConf
 from metaflow import Runner
 from rich import print
