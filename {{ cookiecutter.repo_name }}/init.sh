@@ -48,6 +48,15 @@ if [ $? -ne 0 ]; then
     exit 1
 fi
 
+# Initialize git repository
+echo "Initializing git repository..."
+git init
+if [ $? -ne 0 ]; then
+    echo "Error: Failed to initialize git repository."
+    deactivate
+    exit 1
+fi
+
 # Install dependencies
 echo "Installing dependencies..."
 uv add numpy polars scikit-learn loguru typer ipykernel pre-commit
