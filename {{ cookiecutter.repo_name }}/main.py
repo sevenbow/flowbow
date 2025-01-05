@@ -14,9 +14,16 @@ python main.py --help
 
 import typer
 import hydra
+import pickle
 from omegaconf import OmegaConf
-from metaflow import Runner
-from rich import print
+
+from {{ cookiecutter.module_name }}.dataset import load_data
+from {{ cookiecutter.module_name }}.features import feature_engineering_train, feature_engineering_test
+from {{ cookiecutter.module_name }}.train import train
+from {{ cookiecutter.module_name }}.predict import predict
+from {{ cookiecutter.module_name }}.models import load_model
+from {{ cookiecutter.module_name }}.utils import read_tabular_data
+from {{ cookiecutter.module_name }}.config import config_logger, DATA_DIR, ARTIFACTS_DIR
 
 app = typer.Typer()
 
@@ -29,35 +36,81 @@ def get_cfg():
 
 @app.command()
 def prepare_train_data():
-    """Run flow to prepare training data"""
+    """Prepare training data and save data artifacts"""
+    # Setup configuration
+    config_logger()
     cfg = get_cfg()
-    with Runner("cmipiu/flows/prepare_train_data.py").run(
-        config=cfg
-    ) as running:
-        print(f"{running.run} completed")
+
+    # Load data
+    input_data = DATA_DIR / "raw/train.csv"
+    df = load_data(input_data)
+    df, feature_cols, artifacts = feature_engineering_train(df, output_path=DATA_DIR / "processed/train_features.csv")
+
+    # Save feature cols and artifacts for inference later
+    with open(DATA_DIR / "processed/feature_cols.txt", "w") as f:
+        f.write("\n".join(feature_cols))
+    with open(ARTIFACTS_DIR / "artifacts.pkl", "wb") as f:
+        pickle.dump(artifacts, f)
+
 
 
 @app.command()
 def prepare_test_data():
-    """Run flow to prepare testing data"""
+    """Prepare test data and use data artifacts"""
+    # Setup configuration
+    config_logger()
     cfg = get_cfg()
-    with Runner("cmipiu/flows/prepare_test_data.py").run(config=cfg) as running:
-        print(f"{running.run} completed")
+
+    # Load data
+    input_data = DATA_DIR / "raw/test.csv"
+    df = load_data(input_data)
+
+    # Load artifacts
+    with open(ARTIFACTS_DIR / "artifacts.pkl", "rb") as f:
+        artifacts = pickle.load(f)
+    df = feature_engineering_test(df, artifacts, output_path=DATA_DIR / "processed/test_features.csv")
 
 
 @app.command()
-def train():
-    """Run flow to train all the models"""
+def training():
+    """Train model"""
+    # Setup configuration
+    config_logger()
     cfg = get_cfg()
-    with Runner("cmipiu/flows/train_ml_models.py").run(config=cfg) as running:
-        print(f"{running.run} completed")
 
+    # Load preprocessed data
+    df = read_tabular_data(DATA_DIR / "processed/train_features.csv")
+    with open(DATA_DIR / "processed/feature_cols.txt", "r") as f:
+        feature_cols = f.read().split("\n")
+
+    model, oof_preds, evaluation_results = train(
+        X=df[feature_cols],
+        y=df[cfg['target_col']],
+        model_params=cfg['model_params'],
+        cv=cfg['cv'],
+        metrics=cfg['metrics'],
+        model_path=ARTIFACTS_DIR / "model.pkl",
+    )
 
 @app.command()
-def predict():
-    """Run inference flow"""
-    with Runner("cmipiu/flows/predict_sii.py").run() as running:
-        print(f"{running.run} completed")
+def inference():
+    """Make predictions"""
+    # Setup configuration
+    config_logger()
+    cfg = get_cfg()
+
+    # Load artifacts
+    with open(DATA_DIR / "processed/feature_cols.txt", "r") as f:
+        feature_cols = f.read().split("\n")
+
+    # Load features
+    df = read_tabular_data(DATA_DIR / "processed/test_features.csv")
+
+    # Load model
+    model = load_model(ARTIFACTS_DIR / "model.pkl")
+
+    # Inference
+    preds = predict(df[feature_cols], model=model, output_path=DATA_DIR / "processed/predictions.csv")
 
 if __name__ == "__main__":
     app()
